@@ -1,9 +1,9 @@
 terraform {
   cloud {
-    organization = "friends_of_fate_903"
+    organization = < tf cloud organization name > # enter your terraform cloud organization name
 
     workspaces {
-      name = "sentinel-terraform-repo"
+      name = < workspace name > # enter your terraform cloud workspace
     }
   }
 
