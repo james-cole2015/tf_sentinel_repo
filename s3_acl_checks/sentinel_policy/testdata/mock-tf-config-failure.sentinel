@@ -1,0 +1,167 @@
+import "strings"
+
+providers = {
+	"aws": {
+		"alias": "",
+		"config": {
+			"default_tags": [
+				{
+					"tags": {
+						"constant_value": {
+							"environment": "development",
+							"platform":    "terraform",
+							"repo-name":   "sentinel-access-keys",
+							"user":        "DougReeves",
+						},
+					},
+				},
+			],
+			"region": {
+				"constant_value": "us-east-1",
+			},
+		},
+		"full_name":           "registry.terraform.io/hashicorp/aws",
+		"module_address":      "",
+		"name":                "aws",
+		"provider_config_key": "aws",
+		"version_constraint":  "~> 4.0",
+	},
+}
+
+resources = {
+	"aws_cloudtrail.cloudtrail_private": {
+		"address": "aws_cloudtrail.cloudtrail_private",
+		"config": {
+			"enable_logging": {
+				"constant_value": true,
+			},
+			"include_global_service_events": {
+				"constant_value": true,
+			},
+			"is_multi_region_trail": {
+				"constant_value": true,
+			},
+			"name": {
+				"constant_value": "private_cloudtrail",
+			},
+			"s3_bucket_name": {
+				"references": [
+					"aws_s3_bucket.cloudtrail_logs_bucket_private.id",
+					"aws_s3_bucket.cloudtrail_logs_bucket_private",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "cloudtrail_private",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_cloudtrail",
+	},
+	"aws_cloudtrail.cloudtrail_public": {
+		"address": "aws_cloudtrail.cloudtrail_public",
+		"config": {
+			"enable_logging": {
+				"constant_value": true,
+			},
+			"include_global_service_events": {
+				"constant_value": true,
+			},
+			"is_multi_region_trail": {
+				"constant_value": true,
+			},
+			"name": {
+				"constant_value": "public_cloudtrail",
+			},
+			"s3_bucket_name": {
+				"references": [
+					"aws_s3_bucket.cloudtrail_logs_bucket_public.id",
+					"aws_s3_bucket.cloudtrail_logs_bucket_public",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "cloudtrail_public",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_cloudtrail",
+	},
+	"aws_s3_bucket.cloudtrail_logs_bucket_private": {
+		"address": "aws_s3_bucket.cloudtrail_logs_bucket_private",
+		"config": {
+			"acl": {
+				"constant_value": "private",
+			},
+			"bucket": {
+				"constant_value": "my-cloudtrail-logs-bucket-0987654",
+			},
+			"versioning": [
+				{
+					"enabled": {
+						"constant_value": true,
+					},
+				},
+			],
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "cloudtrail_logs_bucket_private",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_s3_bucket",
+	},
+	"aws_s3_bucket.cloudtrail_logs_bucket_public": {
+		"address": "aws_s3_bucket.cloudtrail_logs_bucket_public",
+		"config": {
+			"acl": {
+				"constant_value": "public-read",
+			},
+			"bucket": {
+				"constant_value": "my-cloudtrail-logs-bucket-09987643",
+			},
+			"versioning": [
+				{
+					"enabled": {
+						"constant_value": true,
+					},
+				},
+			],
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "cloudtrail_logs_bucket_public",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_s3_bucket",
+	},
+}
+
+provisioners = {}
+
+variables = {}
+
+outputs = {}
+
+module_calls = {}
+
+strip_index = func(addr) {
+	s = strings.split(addr, ".")
+	for s as i, v {
+		s[i] = strings.split(v, "[")[0]
+	}
+
+	return strings.join(s, ".")
+}
