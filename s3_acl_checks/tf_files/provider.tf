@@ -1,9 +1,9 @@
 terraform {
   cloud {
-    organization = "sentinel-tests"
+    organization = < org name > # enter tf enterprise org name here
 
     workspaces {
-      name = "glowing-parakeet"
+      name = < workspace name > # enter tf workspace name here
     }
   }
 
