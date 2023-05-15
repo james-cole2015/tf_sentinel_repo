@@ -1,0 +1,52 @@
+# Import the tfconfig/v2 library
+import "tfconfig/v2" as tfconfig
+
+# Filter the Terraform configuration for all data-mode aws_vpc and managed-mode aws_flow_log resources
+all_vpcs = filter tfconfig.resources as _, rc {
+    rc.type is "aws_vpc" and
+    rc.mode is "data"
+}
+
+all_flow_logs = filter tfconfig.resources as _, rc {
+    rc.type is "aws_flow_log" and
+    rc.mode is "managed"
+}
+
+# Map the VPC resources to their IDs, and the Flow Log resources to their associated VPC IDs
+vpc_id_refs = map all_vpcs as _, r {
+    filter r.config.id.references as ref {
+        length(ref) > 0
+    }
+}
+
+flow_log_id_refs = map all_flow_logs as _, r {
+    filter r.config.vpc_id.references as ref {
+        length(ref) > 0
+    }
+}
+
+# Use the 'all' and 'any' functions to determine if all VPCs have associated Flow Logs
+all_elements_present = all vpc_id_refs as vpcs {
+    any flow_log_id_refs as flowlogs {
+        vpcs is flowlogs
+    }
+}
+
+# Define a function to print a summary of the policy
+print_summary = func() {
+    if not all_elements_present {
+        # If not all VPCs have associated Flow Logs, print an error message and return false
+        print("All VPCs must have flow logs enabled")
+        return false
+    }
+    # If all VPCs have associated Flow Logs, return true
+    return true
+}
+
+# Define the main policy rule
+main = rule {
+    all_elements_present is true
+}
+
+# Call the print_summary function to print a summary of the policy
+print_summary()

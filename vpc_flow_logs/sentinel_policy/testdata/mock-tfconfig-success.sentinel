@@ -1,0 +1,126 @@
+import "strings"
+
+providers = {
+	"aws": {
+		"alias": "",
+		"config": {
+			"default_tags": [
+				{
+					"tags": {
+						"constant_value": {
+							"environment": "development",
+							"platform":    "terraform",
+							"repo-name":   "sentinel-terraform-repo",
+							"user":        "MatthewDavis",
+						},
+					},
+				},
+			],
+			"region": {
+				"constant_value": "us-east-1",
+			},
+		},
+		"full_name":           "registry.terraform.io/hashicorp/aws",
+		"module_address":      "",
+		"name":                "aws",
+		"provider_config_key": "aws",
+		"version_constraint":  "~> 4.0",
+	},
+}
+
+resources = {
+	"aws_cloudwatch_log_group.example": {
+		"address": "aws_cloudwatch_log_group.example",
+		"config": {
+			"name": {
+				"constant_value": "vpc_logs",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "example",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_cloudwatch_log_group",
+	},
+	"aws_flow_log.flow_logs_example1": {
+		"address": "aws_flow_log.flow_logs_example1",
+		"config": {
+			"iam_role_arn": {
+				"references": [
+					"aws_iam_role.example.arn",
+					"aws_iam_role.example",
+				],
+			},
+			"log_destination": {
+				"references": [
+					"aws_cloudwatch_log_group.example.arn",
+					"aws_cloudwatch_log_group.example",
+				],
+			},
+			"traffic_type": {
+				"constant_value": "ALL",
+			},
+			"vpc_id": {
+				"references": [
+					"aws_vpc.main1.id",
+					"aws_vpc.main1",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "flow_logs_example1",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_flow_log",
+	},
+	"aws_vpc.main1": {
+		"address": "aws_vpc.main1",
+		"config": {
+			"cidr_block": {
+				"constant_value": "11.0.0.0/24",
+			},
+			"tags": {
+				"constant_value": {
+					"Name": "VPC01",
+				},
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "main1",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_vpc",
+	},
+	"data.aws_vpc.vpc1": {
+		"address": "data.aws_vpc.vpc1",
+		"config": {
+			"id": {
+				"references": [
+					"aws_vpc.main1.id",
+					"aws_vpc.main1",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "data",
+		"module_address":      "",
+		"name":                "vpc1",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_vpc",
+	},
+}
