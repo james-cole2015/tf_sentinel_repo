@@ -16,34 +16,6 @@ resource "aws_vpc" "main1" {
     }
 }
 
-resource "aws_vpc" "main2" {
-    cidr_block = "12.0.0.0/24"
-    tags = {
-        Name = "VPC02"
-    }
-}
-
-resource "aws_vpc" "main3" {
-    cidr_block = "13.0.0.0/24"
-    tags = {
-        Name = "VPC03"
-    }
-}
-
-resource "aws_vpc" "main4" {
-    cidr_block = "14.0.0.0/24"
-    tags = {
-        Name = "VPC04"
-    }
-}
-
-resource "aws_vpc" "main5" {
-    cidr_block = "15.0.0.0/24"
-    tags = {
-        Name = "VPC05"
-    }
-}
-
 #----------------------------------------------------------------#
 ##                        VPC Data                              ##
 #----------------------------------------------------------------#
@@ -58,7 +30,7 @@ output "sentinel_vpc_ids" {
     value = data.aws_vpcs.all_vpcs 
 }
 #----------------------------------------------------------------#
-##             Creating Flow Logs for VPCS 1,3,5                ##
+##             Creating Flow Logs for VPCS                      ##
 #----------------------------------------------------------------#
 
 resource "aws_flow_log" "flow_logs_example1" {
@@ -66,20 +38,6 @@ resource "aws_flow_log" "flow_logs_example1" {
   log_destination = aws_cloudwatch_log_group.example.arn
   traffic_type = "ALL"
   vpc_id = aws_vpc.main1.id
-}
-
-resource "aws_flow_log" "flow_logs_example3" {
-  iam_role_arn = aws_iam_role.example.arn
-  log_destination = aws_cloudwatch_log_group.example.arn
-  traffic_type = "ALL"
-  vpc_id = aws_vpc.main3.id
-}
-
-resource "aws_flow_log" "flow_logs_example5" {
-  iam_role_arn = aws_iam_role.example.arn
-  log_destination = aws_cloudwatch_log_group.example.arn
-  traffic_type = "ALL"
-  vpc_id = aws_vpc.main5.id
 }
 
 resource "aws_cloudwatch_log_group" "example" {
