@@ -1,9 +1,9 @@
 terraform {
   cloud {
-    organization = < tf cloud organization name > # enter your terraform cloud organization name
+    organization = "sentinel-test" # enter your terraform cloud organization name
 
     workspaces {
-      name = < workspace name > # enter your terraform cloud workspace
+      name = "vpc_flow_logs_check" # enter your terraform cloud workspace
     }
   }
 
