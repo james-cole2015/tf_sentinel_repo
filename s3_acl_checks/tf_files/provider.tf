@@ -1,9 +1,9 @@
 terraform {
   cloud {
-    organization = < org name > # enter tf enterprise org name here
+    organization = "sentinel-test" # enter tf enterprise org name here
 
     workspaces {
-      name = < workspace name > # enter tf workspace name here
+      name = "tf_sentinel_repo-s3_acl_check" # enter tf workspace name here
     }
   }
 
