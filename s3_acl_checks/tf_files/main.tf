@@ -6,10 +6,6 @@ resource "aws_s3_bucket" "cloudtrail_logs_bucket_public" {
   versioning {
     enabled = true
   }
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "aws_cloudtrail" "cloudtrail_public" {
@@ -26,10 +22,6 @@ resource "aws_s3_bucket" "cloudtrail_logs_bucket_private" {
 
   versioning {
     enabled = true
-  }
-
-  lifecycle {
-    prevent_destroy = true
   }
 }
 
