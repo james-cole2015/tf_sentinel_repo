@@ -21,11 +21,11 @@ resource "aws_vpc" "main1" {
 #----------------------------------------------------------------#
 
 data "aws_vpc" "main" {
-  id = aws_vpc.main
+  id = aws_vpc.main.id
 }
 
 data "aws_vpc" "main1" {
-  id = aws_vpc.main1
+  id = aws_vpc.main1.id
 }
 #----------------------------------------------------------------#
 ##             Creating Flow Logs for VPCS                      ##
