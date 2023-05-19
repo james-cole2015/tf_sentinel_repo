@@ -20,14 +20,12 @@ resource "aws_vpc" "main1" {
 ##                        VPC Data                              ##
 #----------------------------------------------------------------#
 
-data "aws_vpcs" "all_vpcs" {
-    tags = {
-        repo-name = "sentinel-terraform-repo"
-    }
+data "aws_vpc" "main" {
+  id = aws_vpc.main.id
 }
 
-output "sentinel_vpc_ids" {
-    value = data.aws_vpcs.all_vpcs 
+data "aws_vpc" "main1" {
+  id = aws_vpc.main1.id
 }
 #----------------------------------------------------------------#
 ##             Creating Flow Logs for VPCS                      ##
