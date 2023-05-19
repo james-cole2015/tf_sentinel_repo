@@ -27,10 +27,6 @@ data "aws_vpc" "main" {
 data "aws_vpc" "main1" {
   id = aws_vpc.main1
 }
-
-output "sentinel_vpc_ids" {
-    value = data.aws_vpcs.all_vpcs 
-}
 #----------------------------------------------------------------#
 ##             Creating Flow Logs for VPCS                      ##
 #----------------------------------------------------------------#
