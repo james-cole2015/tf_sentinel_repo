@@ -1,0 +1,197 @@
+import "strings"
+
+providers = {
+	"aws": {
+		"alias": "",
+		"config": {
+			"default_tags": [
+				{
+					"tags": {
+						"constant_value": {
+							"environment": "development",
+							"platform":    "terraform",
+							"repo-name":   "sentinel-terraform-repo",
+							"user":        "MatthewDavis",
+						},
+					},
+				},
+			],
+			"region": {
+				"constant_value": "us-east-1",
+			},
+		},
+		"full_name":           "registry.terraform.io/hashicorp/aws",
+		"module_address":      "",
+		"name":                "aws",
+		"provider_config_key": "aws",
+		"version_constraint":  "~> 4.0",
+	},
+}
+
+resources = {
+	"aws_security_group.allow_ssh_anywhere": {
+		"address": "aws_security_group.allow_ssh_anywhere",
+		"config": {
+			"description": {
+				"constant_value": "Allow SSH access from anywhere",
+			},
+			"ingress": {
+				"constant_value": [
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      null,
+						"from_port":        22,
+						"ipv6_cidr_blocks": null,
+						"prefix_list_ids":  null,
+						"protocol":         "tcp",
+						"security_groups":  null,
+						"self":             null,
+						"to_port":          22,
+					},
+				],
+			},
+			"name": {
+				"constant_value": "allow-ssh-anywhere",
+			},
+			"vpc_id": {
+				"references": [
+					"aws_vpc.test_vpc.id",
+					"aws_vpc.test_vpc",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "allow_ssh_anywhere",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_security_group",
+	},
+	"aws_security_group.allow_ssh_vpc_only": {
+		"address": "aws_security_group.allow_ssh_vpc_only",
+		"config": {
+			"description": {
+				"constant_value": "Allow SSH access from VPC CIDR only",
+			},
+			"ingress": {
+				"references": [
+					"aws_vpc.test_vpc.cidr_block",
+					"aws_vpc.test_vpc",
+				],
+			},
+			"name": {
+				"constant_value": "allow-ssh-vpc-only",
+			},
+			"vpc_id": {
+				"references": [
+					"aws_vpc.test_vpc.id",
+					"aws_vpc.test_vpc",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "allow_ssh_vpc_only",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_security_group",
+	},
+	"aws_subnet.restricted_ssh_subnet": {
+		"address": "aws_subnet.restricted_ssh_subnet",
+		"config": {
+			"cidr_block": {
+				"constant_value": "10.0.1.0/24",
+			},
+			"tags": {
+				"constant_value": {
+					"Name": "restricted-ssh",
+				},
+			},
+			"vpc_id": {
+				"references": [
+					"aws_vpc.test_vpc.id",
+					"aws_vpc.test_vpc",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "restricted_ssh_subnet",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_subnet",
+	},
+	"aws_subnet.unrestricted_ssh_subnet": {
+		"address": "aws_subnet.unrestricted_ssh_subnet",
+		"config": {
+			"cidr_block": {
+				"constant_value": "10.0.2.0/24",
+			},
+			"tags": {
+				"constant_value": {
+					"Name": "unrestricted-ssh",
+				},
+			},
+			"vpc_id": {
+				"references": [
+					"aws_vpc.test_vpc.id",
+					"aws_vpc.test_vpc",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "unrestricted_ssh_subnet",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_subnet",
+	},
+	"aws_vpc.test_vpc": {
+		"address": "aws_vpc.test_vpc",
+		"config": {
+			"cidr_block": {
+				"constant_value": "10.0.0.0/16",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "test_vpc",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_vpc",
+	},
+}
+
+provisioners = {}
+
+variables = {}
+
+outputs = {}
+
+module_calls = {}
+
+strip_index = func(addr) {
+	s = strings.split(addr, ".")
+	for s as i, v {
+		s[i] = strings.split(v, "[")[0]
+	}
+
+	return strings.join(s, ".")
+}
